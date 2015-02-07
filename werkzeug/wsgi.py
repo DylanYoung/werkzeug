@@ -21,7 +21,7 @@ from functools import partial, update_wrapper
 
 from werkzeug._compat import iteritems, text_type, string_types, \
      implements_iterator, make_literal_wrapper, to_unicode, to_bytes, \
-     wsgi_get_bytes, try_coerce_native, PY2
+     wsgi_get_bytes, try_coerce_native, PY2, get_filesystem_encoding
 from werkzeug._internal import _empty_stream, _encode_idna
 from werkzeug.http import is_resource_modified, http_date
 from werkzeug.urls import uri_to_iri, url_quote, url_parse, url_join
@@ -557,7 +557,7 @@ class SharedDataMiddleware(object):
 
     def generate_etag(self, mtime, file_size, real_filename):
         if not isinstance(real_filename, bytes):
-            real_filename = real_filename.encode(sys.getfilesystemencoding())
+            real_filename = real_filename.encode(get_filesystem_encoding())
         return 'wzsdm-%d-%s-%s' % (
             mktime(mtime.timetuple()),
             file_size,
