@@ -567,7 +567,7 @@ class SharedDataMiddleware(object):
     def __call__(self, environ, start_response):
         cleaned_path = get_path_info(environ)
         if PY2:
-            cleaned_path = cleaned_path.encode(sys.getfilesystemencoding())
+            cleaned_path = cleaned_path.encode(get_filesystem_encoding())
         # sanitize the path for non unix systems
         cleaned_path = cleaned_path.strip('/')
         for sep in os.sep, os.altsep:

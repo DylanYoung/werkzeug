@@ -238,11 +238,11 @@ def get_filesystem_encoding():
     """
     global _warned_about_filesystem_encoding
     rv = sys.getfilesystemencoding()
-    if has_likely_buggy_unicode_filesystem and is_ascii_encoding(rv):
+    if has_likely_buggy_unicode_filesystem and not rv or is_ascii_encoding(rv):
         if not _warned_about_filesystem_encoding:
             warnings.warn(
                 'Detected a misconfigured UNIX filesystem: Will use UTF-8 as '
-                'filesystem encoding instead of {}'.format(rv))
+                'filesystem encoding instead of {r!}'.format(rv))
             _warned_about_filesystem_encoding = True
         return 'utf-8'
     return rv
